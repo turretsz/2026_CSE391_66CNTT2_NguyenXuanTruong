@@ -1,0 +1,58 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 30px;
+}
+
+h2 {
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+input {
+  padding: 8px;
+  margin-right: 10px;
+  width: 200px;
+}
+
+button {
+  padding: 8px 14px;
+  cursor: pointer;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+table,
+th,
+td {
+  border: 1px solid #333;
+}
+
+th,
+td {
+  padding: 10px;
+  text-align: center;
+}
+
+.yeu {
+  background-color: yellow;
+}
+
+stats {
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+.input-error {
+  border: 1px solid red !important;
+}
+
+.input-success {
+  border: 1px solid green !important;
+}

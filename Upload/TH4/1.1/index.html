@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bảng Điểm Sinh Viên</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <h2>Quản Lý Điểm Sinh Viên</h2>
+
+  <div class="form-group">
+    <input type="text" id="hoTen" placeholder="Nhập họ tên" />
+    <input type="number" id="diem" placeholder="Nhập điểm" min="0" max="10" step="0.1" />
+    <button id="btnThem">Thêm</button>
+  </div>
+  <div class="form-group" style="margin-top: 15px; border-top: 1px solid #ccc; padding-top: 15px;">
+    <input type="text" id="searchInput" placeholder="Tìm kiếm theo tên..." />
+    <select id="filterXeploai" style="padding: 8px; border-radius: 4px; border: 1px solid #ccc;">
+      <option value="all">Tất cả xếp loại</option>
+      <option value="Giỏi">Giỏi</option>
+      <option value="Khá">Khá</option>
+      <option value="Trung bình">Trung bình</option>
+      <option value="Yếu">Yếu</option>
+    </select>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>STT</th>
+        <th>Họ tên</th>
+        <th id="colDiem" style="cursor: pointer; background-color: #f1f1f1;" title="Click để sắp xếp">Điểm <span
+            id="sortIcon"></span></th>
+        <th>Xếp loại</th>
+        <th>Thao tác</th>
+      </tr>
+    </thead>
+    <tbody id="tableBody"></tbody>
+  </table>
+
+  <div class="stats" id="thongKe">
+    Tổng số sinh viên: 0 | Điểm trung bình: 0.00
+  </div>
+
+  <hr style="margin: 40px 0;">
+
+  <h2>Form Đăng Ký Tài Khoản</h2>
+  <div id="registerFormContainer" style="max-width: 400px; padding: 20px; border: 1px solid #ccc; border-radius: 5px;">
+    <form id="registerForm" novalidate>
+      <div class="form-group" style="display: block; margin-bottom: 15px;">
+        <label for="regFullName" style="display: block; margin-bottom: 5px;">Họ và tên *</label>
+        <input type="text" id="regFullName" style="width: 100%; box-sizing: border-box;" placeholder="Nhập họ tên" />
+        <span class="error" id="err-regFullName" style="color: red; font-size: 13px; display: none;"></span>
+      </div>
+
+      <div class="form-group" style="display: block; margin-bottom: 15px;">
+        <label for="regEmail" style="display: block; margin-bottom: 5px;">Email *</label>
+        <input type="text" id="regEmail" style="width: 100%; box-sizing: border-box;" placeholder="Nhập email" />
+        <span class="error" id="err-regEmail" style="color: red; font-size: 13px; display: none;"></span>
+      </div>
+
+      <div class="form-group" style="display: block; margin-bottom: 15px;">
+        <label for="regPhone" style="display: block; margin-bottom: 5px;">Số điện thoại *</label>
+        <input type="text" id="regPhone" style="width: 100%; box-sizing: border-box;"
+          placeholder="Nhập số điện thoại" />
+        <span class="error" id="err-regPhone" style="color: red; font-size: 13px; display: none;"></span>
+      </div>
+
+      <div class="form-group" style="display: block; margin-bottom: 15px;">
+        <label for="regPassword" style="display: block; margin-bottom: 5px;">Mật khẩu *</label>
+        <input type="password" id="regPassword" style="width: 100%; box-sizing: border-box;"
+          placeholder="Nhập mật khẩu" />
+        <span class="error" id="err-regPassword" style="color: red; font-size: 13px; display: none;"></span>
+      </div>
+
+      <div class="form-group" style="display: block; margin-bottom: 15px;">
+        <label for="regConfirmPassword" style="display: block; margin-bottom: 5px;">Xác nhận mật khẩu *</label>
+        <input type="password" id="regConfirmPassword" style="width: 100%; box-sizing: border-box;"
+          placeholder="Nhập lại mật khẩu" />
+        <span class="error" id="err-regConfirmPassword" style="color: red; font-size: 13px; display: none;"></span>
+      </div>
+
+      <div class="form-group" style="display: block; margin-bottom: 15px;">
+        <label style="display: block; margin-bottom: 5px;">Giới tính *</label>
+        <input type="radio" name="regGender" id="genderMale" value="Nam" style="width: auto;"> <label
+          for="genderMale">Nam</label>
+        <input type="radio" name="regGender" id="genderFemale" value="Nữ" style="width: auto;"> <label
+          for="genderFemale">Nữ</label>
+        <br>
+        <span class="error" id="err-regGender" style="color: red; font-size: 13px; display: none;"></span>
+      </div>
+
+      <div class="form-group" style="display: block; margin-bottom: 15px;">
+        <input type="checkbox" id="regTerms" style="width: auto;"> <label for="regTerms">Đồng ý với điều khoản *</label>
+        <br>
+        <span class="error" id="err-regTerms" style="color: red; font-size: 13px; display: none;"></span>
+      </div>
+
+      <button type="submit" style="width: 100%; background: #28a745; color: white; border: none; padding: 10px;">Đăng
+        Ký</button>
+    </form>
+  </div>
+
+  <div id="registerSuccessMsg"
+    style="display: none; padding: 20px; background: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 5px; max-width: 400px; text-align: center;">
+    <h3 style="margin-top: 0;">Đăng ký thành công! 🎉</h3>
+    <p>Chào mừng <strong id="successCustomerName"></strong></p>
+    <button
+      onclick="document.getElementById('registerSuccessMsg').style.display='none'; document.getElementById('registerFormContainer').style.display='block'; document.getElementById('registerForm').reset();">Đăng
+      ký lại</button>
+  </div>
+
+  <hr style="margin: 40px 0;">
+
+  <h2>Form Đặt Hàng Nâng Cao</h2>
+  <div id="orderFormContainer" style="max-width: 500px; padding: 20px; border: 1px solid #ccc; border-radius: 5px;">
+    <form id="orderForm" novalidate>
+      <div class="form-group" style="display: block; margin-bottom: 15px;">
+        <label for="ordProduct" style="display: block; margin-bottom: 5px;">Sản phẩm *</label>
+        <select id="ordProduct" style="width: 100%; padding: 10px; box-sizing: border-box;">
+          <option value="">-- Chọn sản phẩm --</option>
+          <option value="Laptop" data-price="15000000">Laptop (15.000.000đ)</option>
+          <option value="Dienthoai" data-price="8000000">Điện thoại (8.000.000đ)</option>
+          <option value="TaiNghe" data-price="500000">Tai nghe (500.000đ)</option>
+        </select>
+        <span class="error" id="err-ordProduct" style="color: red; font-size: 13px; display: none;"></span>
+      </div>
+
+      <div class="form-group" style="display: block; margin-bottom: 15px;">
+        <label for="ordQuantity" style="display: block; margin-bottom: 5px;">Số lượng *</label>
+        <input type="number" id="ordQuantity" style="width: 100%; padding: 10px; box-sizing: border-box;" value="1"
+          min="1" max="99" />
+        <span class="error" id="err-ordQuantity" style="color: red; font-size: 13px; display: none;"></span>
+      </div>
+
+      <div class="form-group" style="display: block; margin-bottom: 15px;">
+        <label for="ordDate" style="display: block; margin-bottom: 5px;">Ngày giao hàng *</label>
+        <input type="date" id="ordDate" style="width: 100%; padding: 10px; box-sizing: border-box;" />
+        <span class="error" id="err-ordDate" style="color: red; font-size: 13px; display: none;"></span>
+      </div>
+
+      <div class="form-group" style="display: block; margin-bottom: 15px;">
+        <label for="ordAddress" style="display: block; margin-bottom: 5px;">Địa chỉ giao *</label>
+        <input type="text" id="ordAddress" style="width: 100%; padding: 10px; box-sizing: border-box;"
+          placeholder="Nhập địa chỉ (tối thiểu 10 ký tự)" />
+        <span class="error" id="err-ordAddress" style="color: red; font-size: 13px; display: none;"></span>
+      </div>
+
+      <div class="form-group" style="position: relative; display: block; margin-bottom: 15px;">
+        <label for="ordNote" style="display: block; margin-bottom: 5px;">Ghi chú</label>
+        <textarea id="ordNote" rows="3" style="width: 100%; padding: 10px; box-sizing: border-box; resize: vertical;"
+          placeholder="Lời nhắn..."></textarea>
+        <div id="noteCounter" style="position: absolute; right: 5px; top: 5px; font-size: 12px; color: #666;">0/200
+        </div>
+        <span class="error" id="err-ordNote" style="color: red; font-size: 13px; display: none;"></span>
+      </div>
+
+      <div class="form-group" style="display: block; margin-bottom: 15px;">
+        <label style="display: block; margin-bottom: 5px;">Phương thức thanh toán *</label>
+        <input type="radio" name="ordPayment" id="payCOD" value="COD" style="width: auto;"> <label
+          for="payCOD">COD</label>
+        <input type="radio" name="ordPayment" id="payTransfer" value="Chuyển khoản" style="width: auto;"> <label
+          for="payTransfer">Chuyển khoản</label>
+        <input type="radio" name="ordPayment" id="payWallet" value="Ví điện tử" style="width: auto;"> <label
+          for="payWallet">Ví điện tử</label>
+        <br>
+        <span class="error" id="err-ordPayment" style="color: red; font-size: 13px; display: none;"></span>
+      </div>
+
+      <div
+        style="font-size: 18px; font-weight: bold; text-align: right; background: #eee; padding: 15px; margin-bottom: 15px; border-radius: 5px;">
+        Tổng tiền: <span id="ordTotalAmount" style="color: #d9534f;">0</span> đ
+      </div>
+
+      <button type="submit"
+        style="width: 100%; background: #007bff; color: white; border: none; padding: 10px; font-size: 16px;">Đặt
+        Hàng</button>
+    </form>
+  </div>
+
+  <!-- Dialog xác nhận -->
+  <div id="confirmDialog"
+    style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+    <div style="background: white; padding: 20px; border-radius: 5px; width: 300px;">
+      <h3 style="margin-top: 0;">Xác nhận đặt hàng?</h3>
+      <div id="confirmDetails" style="margin-bottom: 20px; font-size: 14px; line-height: 1.5;"></div>
+      <div style="text-align: right;">
+        <button type="button" id="btnCancelOrder"
+          style="background: #6c757d; color: white; border: none; padding: 8px 15px; margin-right: 10px;">Hủy</button>
+        <button type="button" id="btnConfirmOrder"
+          style="background: #28a745; color: white; border: none; padding: 8px 15px;">Xác nhận</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Thông báo thành công -->
+  <div id="orderSuccessMsg"
+    style="display: none; padding: 20px; background: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 5px; max-width: 500px; text-align: center; margin-top: 20px;">
+    <h3 style="margin-top: 0;">Đặt hàng thành công! 📦</h3>
+    <button
+      onclick="document.getElementById('orderSuccessMsg').style.display='none'; document.getElementById('orderFormContainer').style.display='block'; document.getElementById('orderForm').reset(); document.getElementById('ordTotalAmount').textContent='0'; document.getElementById('noteCounter').textContent='0/200'; document.getElementById('noteCounter').style.color='#666';">Đặt
+      đơn mới</button>
+  </div>
+
+  <hr style="margin: 40px 0;">
+
+  <!-- BTVN 2: MULTI-STEP FORM -->
+  <h2>Multi-step Form Đăng Ký (BTVN 2)</h2>
+  <div id="multiStepContainer"
+    style="max-width: 500px; padding: 20px; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 50px;">
+
+    <!-- Progress Bar -->
+    <div style="display: flex; justify-content: space-between; margin-bottom: 20px; position: relative;">
+      <div style="position: absolute; top: 12px; left: 0; width: 100%; height: 4px; background: #eee; z-index: 1;">
+      </div>
+      <div id="msProgress"
+        style="position: absolute; top: 12px; left: 0; width: 0%; height: 4px; background: #007bff; z-index: 2; transition: width 0.3s;">
+      </div>
+
+      <div class="step-indicator" id="ind-step1"
+        style="width: 30px; height: 30px; background: #007bff; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 3; font-weight: bold;">
+        1</div>
+      <div class="step-indicator" id="ind-step2"
+        style="width: 30px; height: 30px; background: #eee; color: #666; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 3; font-weight: bold;">
+        2</div>
+      <div class="step-indicator" id="ind-step3"
+        style="width: 30px; height: 30px; background: #eee; color: #666; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 3; font-weight: bold;">
+        3</div>
+    </div>
+    <div style="text-align: center; margin-bottom: 20px; font-weight: bold; color: #666;" id="msStepText">Bước 1 / 3
+    </div>
+
+    <form id="multiStepForm" novalidate>
+
+      <!-- BƯỚC 1: Thông tin cá nhân -->
+      <div id="msStep1" class="ms-step">
+        <h3 style="margin-top: 0; border-bottom: 1px solid #eee; padding-bottom: 10px;">Thông tin cá nhân</h3>
+        <div class="form-group" style="display: block; margin-bottom: 15px;">
+          <label for="msName" style="display: block; margin-bottom: 5px;">Họ tên *</label>
+          <input type="text" id="msName" style="width: 100%; padding: 10px; box-sizing: border-box;"
+            placeholder="Nhập họ tên" />
+          <span class="error" id="err-msName" style="color: red; font-size: 13px; display: none;"></span>
+        </div>
+        <div class="form-group" style="display: block; margin-bottom: 15px;">
+          <label for="msDob" style="display: block; margin-bottom: 5px;">Ngày sinh *</label>
+          <input type="date" id="msDob" style="width: 100%; padding: 10px; box-sizing: border-box;" />
+          <span class="error" id="err-msDob" style="color: red; font-size: 13px; display: none;"></span>
+        </div>
+        <div class="form-group" style="display: block; margin-bottom: 15px;">
+          <label style="display: block; margin-bottom: 5px;">Giới tính *</label>
+          <input type="radio" name="msGender" id="msGenderM" value="Nam" style="width: auto;"> <label
+            for="msGenderM">Nam</label>
+          <input type="radio" name="msGender" id="msGenderF" value="Nữ" style="width: auto;"> <label
+            for="msGenderF">Nữ</label>
+          <br><span class="error" id="err-msGender" style="color: red; font-size: 13px; display: none;"></span>
+        </div>
+      </div>
+
+      <!-- BƯỚC 2: Thông tin tài khoản -->
+      <div id="msStep2" class="ms-step" style="display: none;">
+        <h3 style="margin-top: 0; border-bottom: 1px solid #eee; padding-bottom: 10px;">Thông tin tài khoản</h3>
+        <div class="form-group" style="display: block; margin-bottom: 15px;">
+          <label for="msEmail" style="display: block; margin-bottom: 5px;">Email *</label>
+          <input type="text" id="msEmail" style="width: 100%; padding: 10px; box-sizing: border-box;"
+            placeholder="Nhập email" />
+          <span class="error" id="err-msEmail" style="color: red; font-size: 13px; display: none;"></span>
+        </div>
+        <div class="form-group" style="display: block; margin-bottom: 15px;">
+          <label for="msPassword" style="display: block; margin-bottom: 5px;">Mật khẩu *</label>
+          <input type="password" id="msPassword" style="width: 100%; padding: 10px; box-sizing: border-box;"
+            placeholder="Nhập mật khẩu" />
+          <span class="error" id="err-msPassword" style="color: red; font-size: 13px; display: none;"></span>
+        </div>
+        <div class="form-group" style="display: block; margin-bottom: 15px;">
+          <label for="msConfirm" style="display: block; margin-bottom: 5px;">Xác nhận mật khẩu *</label>
+          <input type="password" id="msConfirm" style="width: 100%; padding: 10px; box-sizing: border-box;"
+            placeholder="Nhập lại mật khẩu" />
+          <span class="error" id="err-msConfirm" style="color: red; font-size: 13px; display: none;"></span>
+        </div>
+      </div>
+
+      <!-- BƯỚC 3: Xác nhận -->
+      <div id="msStep3" class="ms-step" style="display: none;">
+        <h3 style="margin-top: 0; border-bottom: 1px solid #eee; padding-bottom: 10px;">Xác nhận thông tin</h3>
+        <div style="background: #f9f9f9; padding: 15px; border-radius: 5px; font-size: 14px; line-height: 1.6;">
+          <strong>Họ tên:</strong> <span id="lblMsName"></span><br>
+          <strong>Ngày sinh:</strong> <span id="lblMsDob"></span><br>
+          <strong>Giới tính:</strong> <span id="lblMsGender"></span><br>
+          <strong>Email:</strong> <span id="lblMsEmail"></span><br>
+        </div>
+      </div>
+
+      <!-- Điều hướng -->
+      <div
+        style="display: flex; justify-content: space-between; margin-top: 20px; padding-top: 15px; border-top: 1px solid #ccc;">
+        <button type="button" id="btnMsPrev"
+          style="background: #6c757d; color: white; border: none; padding: 10px 20px; display: none;">Quay lại</button>
+        <button type="button" id="btnMsNext"
+          style="background: #007bff; color: white; border: none; padding: 10px 20px; margin-left: auto;">Tiếp
+          theo</button>
+        <button type="submit" id="btnMsSubmit"
+          style="background: #28a745; color: white; border: none; padding: 10px 20px; display: none;">Xác nhận &
+          Gửi</button>
+      </div>
+
+    </form>
+  </div>
+
+  <!-- Thông báo thành công BTVN 2 -->
+  <div id="msSuccessMsg"
+    style="display: none; padding: 20px; background: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 5px; max-width: 500px; text-align: center; margin-bottom: 50px;">
+    <h3 style="margin-top: 0;">Đăng ký thành công! 🎉</h3>
+    <button
+      onclick="document.getElementById('msSuccessMsg').style.display='none'; document.getElementById('multiStepContainer').style.display='block'; window.resetMultiStepForm();">Đăng
+      ký lại</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
